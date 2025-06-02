@@ -1,0 +1,18 @@
+const express=require('express');
+const router=express.Router();
+const userController=require('../controllers/user.controller');
+const { body }=require("express-validator")
+
+router.post('/register',[
+    body('email').isEmail().withMessage('Please enter a valid email address'),
+    body('fullName.firstName').isLength({ min: 3 }).withMessage('First name must be at least 3 characters long'),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+],userController.registerUser);
+//ab user se data aayega toh mujhe use validate karna hoga naa ki jo data enter kiya hain user ne for registration yeh valid data hai yaa nahin
+
+//iske liye we will use expressvalidator package 
+
+
+
+
+module.exports=router;
