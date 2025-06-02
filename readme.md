@@ -18,5 +18,20 @@ steps involved
 
 4. installing express validator--to validate the data entered post registration
 
-5.
+5. for registration::
+
+sabse pehle route define kara --route ke andar express validator rakha to ensure ki proper validated data hi andar jaaye 
+phir validation result ko controller ko bhjea jisme saara logic hota hain ki kya karwana hain iss api se 
+phir udhar validation result mein koi error messg hain toh voh response ke format mein bhej diya 
+agar nahin hain toh user service hain ek to register user usko calll kara --matlb code ko highly modular karke lika 
+udhar register user mein check hota hain ==already exists , new user create , koi null toh value nahi hain
+phir uske baad jab user create hogya 
+phir ab yeh ek user return karega ab user ko db mein save bhi karenge and and iska ek auth token bhi generate karenge naa babe 
+
+
+jo token hamne JWT ka generate kara hain yeh token hum server side store nahin karenge 
+
+6.hamne login karne par bhi token isliye generate kara hain as user ko login isliye hi karna pada naa as uska auth token expire ho gya hoga so ab authtoken regenerate kara hain taaki user phirse login karne ki need naa ho seedhe open ho jaaye user 
+
+
 

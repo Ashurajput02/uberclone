@@ -12,7 +12,10 @@ router.post('/register',[
 
 //iske liye we will use expressvalidator package 
 
-
+router.post('/login',[
+    body('email').isEmail().withMessage('Please enter a valid email address'),
+    body('password').notEmpty().withMessage('Password is required')
+],userController.loginUser);
 
 
 module.exports=router;

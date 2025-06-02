@@ -25,3 +25,37 @@ module.exports.registerUser = async (req, res) => {
     console.log("User registered successfully:", user);
     res.status(201).json({user});
 }
+
+//to login a user
+module.exports.loginUser = async (req, res) => {
+    console.log("Logging in user with data:", req.body);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    
+    const { email, password } = req.body;
+    console.log("Email:", email);
+    
+    const user = await userModel.findOne({ email: email.toLowerCase() }).select('+password'); // select the password field explicitly
+    if (!user) {
+        return res.status(401).json({ message: "Invalid email or password" });
+    }
+    else{
+       // console.log("user found:", user);//ab hamne jab find query lagayi toh user mil toh gya lekin becoz of select:false 
+        //iss user mein bydefault passowrd nahi aayega usi ke liye humne select kiya tha +password
+        
+        //checking if password is correct
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+        else {
+            console.log("hello")
+            const token = user.generateAuthToken();
+            console.log("User logged in successfully:", user);
+            res.status(200).json({ user, token });
+        } 
+
+    }
+}
