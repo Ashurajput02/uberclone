@@ -1,7 +1,8 @@
+const blacklistToken = require('../models/blacklistToken');
 const userModel=require('../models/user.model')
 const userService=require('../services/user.service');
 const { validationResult } = require('express-validator');
-
+const blacklistTokenModel = require('../models/blacklistToken');
 module.exports.registerUser = async (req, res) => {
     console.log("Registering user with data:", req.body);
     const errors=validationResult(req);
@@ -58,4 +59,28 @@ module.exports.loginUser = async (req, res) => {
         } 
 
     }
+}
+
+
+module.exports.getUserProfile = async (req, res) => {
+
+    //TOH idhar hamein ek middleware ki zaroorat hain jo check karega ki konsa user logged in hain and then uski 
+    //details ko fetch karega
+
+    console.log("Fetching user profile for user:", req.user);
+    res.status(200).json({ user: req.user });
+}
+
+
+
+
+module.exports.logoutUser = async (req, res) => {
+    res.clearCookie('token'); // Clear the token cookie
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+    await blacklistTokenModel.create({token});
+    console.log("Logging out user:", req.user);
+    // Clear the user's socketId or any session data if needed
+    req.user.socketId = null; // Assuming you want to clear the socketId
+    await req.user.save(); // Save the updated user data
+    res.status(200).json({ message: "User logged out successfully" });
 }
