@@ -34,4 +34,7 @@ jo token hamne JWT ka generate kara hain yeh token hum server side store nahin k
 6.hamne login karne par bhi token isliye generate kara hain as user ko login isliye hi karna pada naa as uska auth token expire ho gya hoga so ab authtoken regenerate kara hain taaki user phirse login karne ki need naa ho seedhe open ho jaaye user 
 
 
+7 logout route mein main yeh bhi ensure karna chahta hoon ki jo token bekar expire ho gye hain mein unhein ek blacklist token list meinn db mein store karloon 
+
+8. agar captain (driver) active hain toh uspe rides ki request jaayegi agar inactive hain toh ride ki request nahin jaayegi 
 
