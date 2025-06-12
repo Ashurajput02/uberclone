@@ -404,3 +404,217 @@ Send a JSON object with the following structure:
 - All vehicle fields are required.
 - The endpoint expects `Content-Type: application/json` header.
 - On success, a JWT token is returned for authentication in future requests.
+
+---
+
+# Captain Login Endpoint Documentation
+
+## Endpoint
+
+`POST /captains/login`
+
+## Description
+
+Logs in an existing captain. Validates the input data, checks the credentials, and returns the captain object along with a JWT token if authentication is successful.
+
+---
+
+## Request Body
+
+Send a JSON object with the following structure:
+
+```json
+{
+  "email": "ashu@example.com",
+  "password": "yourpassword"
+}
+```
+
+### Field Requirements
+
+- `email` (string, required): Must be a valid email address.
+- `password` (string, required): Minimum 6 characters.
+
+---
+
+## Responses
+
+### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+    ```json
+    {
+      "captain": {
+        "_id": "captain_id_here",
+        "fullName": {
+          "firstName": "Ashu",
+          "lastName": "Rajput"
+        },
+        "email": "ashu@example.com",
+        "vehicle": {
+          "color": "black",
+          "plate": "UP20234",
+          "capacity": 4,
+          "vehicleType": "car"
+        },
+        "status": "active",
+        "socketId": null,
+        "createdAt": "2025-06-02T12:00:00.000Z",
+        "updatedAt": "2025-06-02T12:00:00.000Z",
+        "__v": 0
+      },
+      "token": "jwt_token_here"
+    }
+    ```
+
+### Validation Error
+
+- **Status Code:** `400 Bad Request`
+- **Body:**
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Error message here",
+          "param": "fieldName",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+
+### Invalid Credentials
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+    ```json
+    {
+      "message": "Invalid email or password"
+    }
+    ```
+
+---
+
+## Notes
+
+- Password is never returned in the response.
+- The endpoint expects `Content-Type: application/json` header.
+- On success, a JWT token is returned for authentication in future requests.
+
+---
+
+# Captain Profile Endpoint Documentation
+
+## Endpoint
+
+`GET /captains/profile`
+
+## Description
+
+Fetches the profile of the currently authenticated captain. Requires a valid JWT token in the `Authorization` header.
+
+---
+
+## Request Headers
+
+- `Authorization: Bearer <jwt_token_here>`
+
+---
+
+## Responses
+
+### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+    ```json
+    {
+      "captain": {
+        "_id": "captain_id_here",
+        "fullName": {
+          "firstName": "Ashu",
+          "lastName": "Rajput"
+        },
+        "email": "ashu@example.com",
+        "vehicle": {
+          "color": "black",
+          "plate": "UP20234",
+          "capacity": 4,
+          "vehicleType": "car"
+        },
+        "status": "active",
+        "socketId": null,
+        "createdAt": "2025-06-02T12:00:00.000Z",
+        "updatedAt": "2025-06-02T12:00:00.000Z",
+        "__v": 0
+      }
+    }
+    ```
+
+### Unauthorized
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+    ```json
+    {
+      "message": "Authentication required"
+    }
+    ```
+
+---
+
+## Notes
+
+- Requires a valid JWT token.
+- Password is never returned in the response.
+
+---
+
+# Captain Logout Endpoint Documentation
+
+## Endpoint
+
+`GET /captains/logout`
+
+## Description
+
+Logs out the currently authenticated captain by blacklisting the JWT token and clearing the captain's session/socket information.
+
+---
+
+## Request Headers
+
+- `Authorization: Bearer <jwt_token_here>`
+
+---
+
+## Responses
+
+### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+    ```json
+    {
+      "message": "User logged out successfully"
+    }
+    ```
+
+### Unauthorized
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+    ```json
+    {
+      "message": "Authentication required"
+    }
+    ```
+
+---
+
+## Notes
+
+- Requires a valid JWT token.
+- The token is blacklisted and cannot be used again.
+- The captain's session/socketId is cleared on logout.
