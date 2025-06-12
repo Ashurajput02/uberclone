@@ -40,6 +40,6 @@ jo token hamne JWT ka generate kara hain yeh token hum server side store nahin k
 9. idhar apan .methods ---used for functions for instance objects 
 10. idhar .statistics ---used for whole model
 
-11. babe idhar apan dhyaan se dekh toh hashpassword ko statistics mein save islie kar rhe hain as abhi yeh captain/user bana hi nahin hai but password toh hash karna hi padega so usko call karne ke liye we will be solely needing modelname toh usi liye isko static banaya hai taaki koi object nahin apitu class bhi isko open kar sake 
+11. babe idhar apan dhyaan se dekh toh hashpassword ko static mein save islie kar rhe hain as abhi yeh captain/user bana hi nahin hai but password toh hash karna hi padega so usko call karne ke liye we will be solely needing modelname toh usi liye isko static banaya hai taaki koi object nahin apitu class bhi isko open kar sake 
 
 12. 
